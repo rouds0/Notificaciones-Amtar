@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "homepage": "http://rouds0.github.io/Notificaciones-Amtar",
   "scripts": {
     "predeploy":"npm run build",
     "deploy":"gh-pages -d dist",
@@ -11,7 +12,7 @@
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "homepage": "http://rouds0.github.io/Notificaciones-Amtar",
+ 
   "dependencies": {
     "axios": "^1.4.0",
     "bootstrap": "^5.2.3",
