@@ -23,6 +23,15 @@ concurrency:
 jobs:
   # Trabajo de implementación único ya que solo estamos implementando
   deploy:
+    env:
+      VITE_apiKey: "AIzaSyDelk0TANfvuWzFN9ArISXHiGC8tOpmFeI"  
+      VITE_authDomain: "amtarapp-2947d.firebaseapp.com"
+      VITE_projectId: "amtarapp-2947d"
+      VITE_storageBucket: "amtarapp-2947d.appspot.com"
+      VITE_messagingSenderId: "918260638919"
+      VITE_appId: "1:918260638919:web:c44975a057f3646092cae2"
+      VITE_measurementId: "G-8K85EES57K"
+      VITE_AuthorizationKey: "AAAA1cyZZMc:APA91bHXS4T-ORZeJRYyTBYxDGfoClP2UI-lRtvryeulVSljWdW9725vHSBGWvaVTosUVOFE7OhUmEob1jT-ut6bL5lCcM-qPAcL89tz_N1OEvWXLYeapcO9rU2VJXCDnBZlEYbJyGI4"
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -39,6 +48,7 @@ jobs:
         run: npm install
       - name: Build
         run: npm run build
+       
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Upload artifact
