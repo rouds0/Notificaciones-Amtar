@@ -1,0 +1,123 @@
+#root {
+  text-align: center;
+  margin: 0 auto;
+  padding: 2rem;
+  max-width: 400px;
+}
+.title-input {
+  width: 100%;
+  font-family: "Verdana", sans-serif;
+  margin-top: 10px;
+  font-size: 24px;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #ccc;
+  outline: none;
+  transition: border-color 0.3s ease; /* Transición del color del borde */
+}
+
+.title-input:focus {
+  border-color: #6c63ff;
+}
+
+.title-input::placeholder {
+  color: #aaa;
+  transition: color 0.3s ease; /* Transición del color del placeholder */
+}
+
+.title-input:focus::placeholder {
+  color: transparent;
+}
+.custom-textarea {
+  font-family: "Verdana", sans-serif;
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  resize: none;
+  width: 100%;
+  resize: none;
+  min-height: 150px;
+  transition: box-shadow 0.3s ease;
+}
+
+.custom-textarea:focus,
+.custom-textarea:hover {
+  border-color: #6c63ff;
+  box-shadow: 0 0 5px #6c63ff;
+}
+.custom-textarea:not(:hover) {
+  transition: box-shadow 0.3s ease; /* Transición de la sombra */
+  box-shadow: none;
+}
+.selectPersonas {
+  width: 100%;
+  margin-top: 30px;
+}
+.BotonBuscar {
+  margin-top: 10px;
+}
+
+.IdDNI {
+  margin-right: 10px;
+}
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+.no-spinner {
+  -moz-appearance: textfield;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.no-spinner::-webkit-inner-spin-button,
+.no-spinner::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.textInput{
+  background-color: white;
+  color: rgb(0, 0, 0);
+  border: none;
+  border-radius: 5px;
+  text-indent: 4px;
+}
+.textInput::placeholder{
+  text-indent: 4px;
+  text-align: left ;
+}
+.field {
+  min-width: 150px;
+  width: 100%;
+  height: 45px;
+  border-radius: 4px;
+  position: relative;
+  background-color: rgb(255, 255, 255);
+  transition: 0.3s all;
+  margin-bottom: 10px;
+}
+.field:hover {
+  background-color: rgb(255, 255, 255);
+  box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.05);
+}
