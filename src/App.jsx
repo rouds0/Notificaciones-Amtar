@@ -190,7 +190,7 @@ function App() {
           <input type="text"  name="title" class="title-input" placeholder="Ingresa un título" value={formData.title} onChange={handleInputChangeNotificacion}></input>
           <textarea  name="description" class="custom-textarea" placeholder="Escribe aquí un mensaje" value={formData.description} onChange={handleInputChangeNotificacion}></textarea>
           <Button onClick={handleSearch} className="BotonBuscar" type="submit">
-            Buscar Persona
+            Enviar Notificiacion
           </Button>
         </Form>
       </Container>
