@@ -2,13 +2,16 @@ import { useEffect, useState } from "react";
 import "./App.css";
 import { getUsers } from "./firebase/firebase.js";
 import {sendNotificationToUser,sendNotificationToTopic} from "./firebase/Notificaciones.js";
-import InputGroup from "react-bootstrap/InputGroup";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { NavBar } from "./nav.jsx";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import  {Modal} from 'react-bootstrap';
+import { CSSTransition,Transition } from 'react-transition-group';
+import { MyModal } from "./modal";
+import 'bootstrap/dist/css/bootstrap.css';
+import "./index.css"
 import {
   OpcionTemas,
   LabelTemas,
@@ -17,6 +20,7 @@ import {
 } from "./docs/dataColour.js";
 import chroma from "chroma-js";
 function App() {
+  const [showModal, setShowModal] = useState(false);
   const [users, setUsers] = useState([]);
   const [dni, setDNI] = useState("");
   const [userData, setUserData] = useState([]);
@@ -30,6 +34,12 @@ function App() {
     // Otros campos del formulario
   });
   const [SelectedOptionTopics,setSelectedOptionTopics]=useState([])
+  const [statusCode, setStatusCode] = useState(false);
+ 
+  const closeModal = () => {
+    setShowModal(false); // Ocultar el modal
+  };
+
   const dot = (color = "transparent") => ({
     alignItems: "center",
     display: "flex",
@@ -89,26 +99,44 @@ function App() {
     };
     fetchData();
   }, []);
+  const resetValues=()=>{
+    formData["DNI"]=""
+    formData["Token"]=""
+    formData["topico"]=undefined
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     formData["DNI"]=dni
     formData["Token"]=userData.Token
-    
     formData["topico"]=SelectedOptionTopics.value
  
     if(formData["topico"]!==undefined&&selectedOption.value!=="1"){
-     
-      formData["DNI"]=""
-      formData["Token"]=""
-      sendNotificationToTopic(formData);
-      formData["topico"]=undefined
+      
+      sendNotificationToTopic(formData).then((res)=>{
+        setStatusCode(res)
+        setShowModal(true);
+      }).catch(()=>{
+        setStatusCode(400)
+        setShowModal(true);
+      }).finally(()=>{
+        resetValues()
+      })
+      console.log(formData.topico)
+      
     }
     else{
-      sendNotificationToUser(formData);
+      sendNotificationToUser(formData).then((res)=>{
+        setStatusCode(res)
+        setShowModal(true);
+      }).catch(()=>{
+        setStatusCode(400)
+        setShowModal(true);
+      }).finally(()=>{
+        resetValues()
+      })
+     
     }
-    formData["DNI"]=""
-    formData["Token"]=""
-    formData["topico"]=undefined
+  
   };
   const handleSearch = async () => {
     try {
@@ -133,12 +161,12 @@ function App() {
     });
    
   };
-  
- 
 
+  
   return (
     <>
-      <NavBar />
+    <NavBar />
+    {showModal && statusCode!==false && <MyModal statusCode={statusCode}/>}
 
       <Container >
         <Form onSubmit={handleSubmit}>
@@ -189,8 +217,8 @@ function App() {
           )}
           <input type="text"  name="title" class="title-input" placeholder="Ingresa un título" value={formData.title} onChange={handleInputChangeNotificacion}></input>
           <textarea  name="description" class="custom-textarea" placeholder="Escribe aquí un mensaje" value={formData.description} onChange={handleInputChangeNotificacion}></textarea>
-          <Button onClick={handleSearch} className="BotonBuscar" type="submit">
-            Enviar Notificiacion
+          <Button onClick={()=>{handleSearch()}}  type="submit" variant="warning">
+            Enviar Notificación
           </Button>
         </Form>
       </Container>
