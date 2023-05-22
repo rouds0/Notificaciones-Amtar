@@ -4,12 +4,13 @@ const fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
 
 export const sendNotificationToTopic = async (fromData) => {
   let statusCode
-  const topics=["Todos","TarjetaAzul","TarjetaBlanca"]
+  const topics=["todos","subAzul","subBlanca"]
   const notification = {
     title: fromData.title,
     body: fromData.description,
+    topic: topics[fromData.topico-1],
   }
-  
+  console.log(notification)
     try {
     const response = await axios.post(
       fcmEndpoint,
