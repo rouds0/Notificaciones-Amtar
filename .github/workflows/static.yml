@@ -23,7 +23,15 @@ concurrency:
 jobs:
   # Trabajo de implementación único ya que solo estamos implementando
   deploy:
-
+    env:
+      VITE_apiKey: ${{secrets.VITE_APIKEY}}  
+      VITE_authDomain:  ${{secrets.VITE_APPID}}
+      VITE_projectId: ${{secrets.VITE_PROJECTID}}
+      VITE_storageBucket: ${{secrets.VITE_STORAGEBUCKET}}
+      VITE_messagingSenderId: ${{secrets.VITE_MESSAGINGSENDERID}}
+      VITE_appId: ${{secrets.VITE_APPID}}
+      VITE_measurementId: ${{secrets.VITE_MEASUREMENTID}}
+      VITE_AuthorizationKey: ${{secrets.VITE_AUTHORIZATIONKEY}}
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
