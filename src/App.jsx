@@ -121,7 +121,7 @@ function App() {
       }).finally(()=>{
         resetValues()
       })
-      console.log(formData.topico)
+      
       
     }
     else{

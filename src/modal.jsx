@@ -12,6 +12,7 @@ export function MyModal({ statusCode }) {
   const [backgroundColor, setBackgroundColor] = useState('');
 
   useEffect(() => {
+    
     if (statusCode === 200) {
       setTitle('Petición exitosa');
       setMessage('La petición se ha completado correctamente.');
@@ -30,6 +31,7 @@ export function MyModal({ statusCode }) {
     }, 3000);
 
     return () => {
+      statusCode=0
       clearTimeout(timer); // Limpiar el temporizador si el componente se desmonta antes de que expire
     };
   }, [statusCode]);

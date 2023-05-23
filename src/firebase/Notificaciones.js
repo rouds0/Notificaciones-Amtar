@@ -1,21 +1,28 @@
 import axios from "axios";
+import {getUsers, db,getUsersTopic, updateUsersNotificationTopic,updateUsersNotification} from "./firebase"
 const authToken =import.meta.env.VITE_AuthorizationKey;
 const fcmEndpoint = 'https://fcm.googleapis.com/fcm/send';
 
+const topics=["todos","subAzul","subBlanca"]
+const topicsFirebase=["Todos","TarjetaAzul","TarjetaBlanca"]
+
 export const sendNotificationToTopic = async (fromData) => {
+
+  const users=await getUsersTopic(topics[fromData.topico-1])
   let statusCode
-  const topics=["todos","subAzul","subBlanca"]
+  const topicFirebase=topicsFirebase[fromData.topico-1]
   const notification = {
     title: fromData.title,
     body: fromData.description,
-    topic: topics[fromData.topico-1],
+    topic: topicFirebase,
+    date:Date.now()
   }
-  console.log(notification)
+  
     try {
     const response = await axios.post(
       fcmEndpoint,
       {
-        to: `/topics/${topics[fromData.topico]}`,
+        to: `/topics/${topicFirebase}`,
         notification: notification
       },
       {
@@ -25,7 +32,10 @@ export const sendNotificationToTopic = async (fromData) => {
         }
       }
     ).then((response) => {
+      
+      updateUsersNotificationTopic(topics[fromData.topico-1],notification)
       statusCode = response.status
+      
     }).catch((error) => {
       statusCode = error
     });
@@ -40,6 +50,7 @@ export const sendNotificationToUser = async (fromData) => {
   const notification = {
     title: fromData.title,
     body: fromData.description,
+    date:Date.now()
   }
   try {
     const response = await axios.post(
@@ -55,6 +66,7 @@ export const sendNotificationToUser = async (fromData) => {
         }
       }
     ).then((response) => {
+      updateUsersNotification(notification,fromData.DNI)
       statusCode = response.status
     }).catch((error) => {
       statusCode = error
