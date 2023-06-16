@@ -7,11 +7,12 @@ import Button from "react-bootstrap/Button";
 import { NavBar } from "./nav.jsx";
 import Container from "react-bootstrap/Container";
 import Select from "react-select";
-import  {Modal} from 'react-bootstrap';
 import { CSSTransition,Transition } from 'react-transition-group';
-import { MyModal } from "./modal";
+import { AlertComponent } from "./modal";
+import { Snackbar,Alert } from '@mui/material';
 import 'bootstrap/dist/css/bootstrap.css';
 import "./index.css"
+
 import {
   OpcionTemas,
   LabelTemas,
@@ -20,25 +21,25 @@ import {
 } from "./docs/dataColour.js";
 import chroma from "chroma-js";
 function App() {
-  const [showModal, setShowModal] = useState(false);
+  
   const [users, setUsers] = useState([]);
   const [dni, setDNI] = useState("");
   const [userData, setUserData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("1");
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    topico: '',
+    title: "",
+    description: "",
+    topico: "",
     DNI: "",
     Token:"",
-    // Otros campos del formulario
+
   });
   const [SelectedOptionTopics,setSelectedOptionTopics]=useState([])
-  const [statusCode, setStatusCode] = useState(false);
+  const [statusCode, setStatusCode] = useState(0);
  
-  const closeModal = () => {
-    setShowModal(false); // Ocultar el modal
-  };
+  const [successVisible, setSuccessVisible] = useState(false);
+  const [errorVisible, setErrorVisible] = useState(false);
+  
 
   const dot = (color = "transparent") => ({
     alignItems: "center",
@@ -114,23 +115,24 @@ function App() {
       
       sendNotificationToTopic(formData).then((res)=>{
         setStatusCode(res)
-        setShowModal(true);
+        
       }).catch(()=>{
         setStatusCode(400)
-        setShowModal(true);
+      
       }).finally(()=>{
         resetValues()
       })
       
-      
+    
     }
     else{
+      
       sendNotificationToUser(formData).then((res)=>{
         setStatusCode(res)
-        setShowModal(true);
+        
       }).catch(()=>{
         setStatusCode(400)
-        setShowModal(true);
+       
       }).finally(()=>{
         resetValues()
       })
@@ -161,12 +163,46 @@ function App() {
     });
    
   };
+  useEffect(() => {
+    if (statusCode === 200) {
+      setSuccessVisible(true);
+    } else if (statusCode !== 0) {
+      setErrorVisible(true);
+    }
+  }, [statusCode]);
 
-  
+  const handleCloseSuccess = () => {
+    setSuccessVisible(false);
+    setStatusCode(0); 
+  };
+
+  const handleCloseError = () => {
+    setErrorVisible(false);
+    setStatusCode(0); 
+  };
   return (
     <>
+     <Snackbar
+        open={successVisible}
+        autoHideDuration={2000}
+        onClose={handleCloseSuccess}
+      >
+        <Alert severity="success" sx={{ width: '100%' }}>
+          Mensaje enviado correctamente!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar
+        open={errorVisible}
+        autoHideDuration={2000}
+        onClose={handleCloseError}
+      >
+        <Alert severity="error" sx={{ width: '100%' }}>
+          Sucedio un error al enviar el mensaje
+        </Alert>
+      </Snackbar>
+      
     <NavBar />
-    {showModal && statusCode!==false && <MyModal statusCode={statusCode}/>}
 
       <Container >
         <Form onSubmit={handleSubmit}>
